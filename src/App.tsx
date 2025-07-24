@@ -8,6 +8,7 @@ import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import ContactPage from './pages/ContactPage';
 import PolicyPages from './pages/PolicyPages';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -30,6 +31,8 @@ function App() {
         return <PolicyPages type="privacy" />;
       case 'refund':
         return <PolicyPages type="refund" />;
+      case 'payment-success':
+        return <PaymentSuccessPage onPageChange={setCurrentPage} />;
       default:
         return <HomePage onPageChange={setCurrentPage} />;
     }

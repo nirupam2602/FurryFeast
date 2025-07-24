@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Minus, Trash2, ShoppingCart, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Customer } from '../types';
+import { usePayment } from '../hooks/usePayment';
 
 interface CartPageProps {
   onPageChange: (page: string) => void;
@@ -19,6 +20,19 @@ const CartPage: React.FC<CartPageProps> = ({ onPageChange }) => {
       city: 'Bhopal',
       state: 'Madhya Pradesh',
       pincode: ''
+    }
+  });
+
+  const { processPayment, isProcessing } = usePayment({
+    items,
+    customer,
+    total: total >= 999 ? total : total + 50,
+    onSuccess: () => {
+      clearCart();
+      onPageChange('payment-success');
+    },
+    onError: (error) => {
+      alert(`Payment failed: ${error}`);
     }
   });
 
@@ -57,14 +71,8 @@ const CartPage: React.FC<CartPageProps> = ({ onPageChange }) => {
       return;
     }
 
-    // In a real application, you would integrate with Cashfree Payment Gateway here
-    // This is a simplified version for demonstration
-    alert(`Payment integration would be implemented here.\n\nOrder Summary:\nTotal: ₹${total.toLocaleString()}\nItems: ${items.length}\n\nCustomer: ${name}`);
-    
-    // Clear cart and redirect to confirmation
-    clearCart();
-    alert('Order placed successfully! (This is a demo)');
-    onPageChange('home');
+    // Process payment with Cashfree
+    processPayment();
   };
 
   if (items.length === 0) {
@@ -170,16 +178,35 @@ const CartPage: React.FC<CartPageProps> = ({ onPageChange }) => {
                 </div>
                 <button
                   onClick={() => setShowCheckout(true)}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
+                  disabled={isProcessing}
+                  className={`w-full py-3 rounded-lg font-semibold transition-colors flex items-center justify-center ${
+                    isProcessing
+                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
                 >
-                  Proceed to Checkout
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  {isProcessing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Proceed to Checkout
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={() => onPageChange('products')}
-                  className="w-full mt-3 border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                  disabled={isProcessing}
+                  className={`flex-1 py-3 rounded-lg font-semibold transition-colors ${
+                    isProcessing
+                      ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                      : 'bg-green-600 text-white hover:bg-green-700'
+                  }`}
                 >
-                  Continue Shopping
+                  {isProcessing ? 'Processing...' : 'Proceed to Payment'}
                 </button>
               </div>
             </div>
