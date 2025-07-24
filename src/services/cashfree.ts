@@ -1,4 +1,4 @@
-import Cashfree from '@cashfreepayments/cashfree-js';
+import { Cashfree } from '@cashfreepayments/cashfree-js';
 
 // Initialize Cashfree
 const cashfree = Cashfree({
