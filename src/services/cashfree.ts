@@ -25,8 +25,8 @@ export interface CashfreeConfig {
 
 // This would typically come from environment variables
 const CASHFREE_CONFIG: CashfreeConfig = {
-  appId: process.env.REACT_APP_CASHFREE_APP_ID || 'TEST_APP_ID',
-  secretKey: process.env.REACT_APP_CASHFREE_SECRET_KEY || 'TEST_SECRET_KEY'
+  appId: import.meta.env.VITE_CASHFREE_APP_ID || 'TEST_APP_ID',
+  secretKey: import.meta.env.VITE_CASHFREE_SECRET_KEY || 'TEST_SECRET_KEY'
 };
 
 export class CashfreeService {

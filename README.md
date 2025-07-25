@@ -60,8 +60,8 @@ A modern, mobile-responsive eCommerce website for FurryFeast pet store in Bhopal
 
 2. **Configure Environment Variables**
    ```env
-   REACT_APP_CASHFREE_APP_ID=your_app_id
-   REACT_APP_CASHFREE_SECRET_KEY=your_secret_key
+   VITE_CASHFREE_APP_ID=your_app_id
+   VITE_CASHFREE_SECRET_KEY=your_secret_key
    ```
 
 3. **Test Payment Flow**
@@ -117,9 +117,9 @@ src/
 ### Environment Variables for Production
 
 Make sure to set these in your deployment platform:
-- `REACT_APP_CASHFREE_APP_ID`
-- `REACT_APP_CASHFREE_SECRET_KEY`
-- `REACT_APP_ENVIRONMENT=production`
+- `VITE_CASHFREE_APP_ID`
+- `VITE_CASHFREE_SECRET_KEY`
+- `VITE_ENVIRONMENT=production`
 
 ## Security Notes
 
