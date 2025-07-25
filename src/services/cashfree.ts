@@ -1,9 +1,6 @@
-import { Cashfree } from '@cashfreepayments/cashfree-js';
-
-// Initialize Cashfree
-const cashfree = Cashfree({
-  mode: 'sandbox' // Change to 'production' for live environment
-});
+// Cashfree Payment Service (Placeholder)
+// This is a placeholder implementation for demonstration purposes
+// In a real application, you would integrate with Cashfree's actual SDK
 
 export interface PaymentOrder {
   order_id: string;
@@ -44,68 +41,57 @@ export class CashfreeService {
     return CashfreeService.instance;
   }
 
-  // Create order on Cashfree
+  // Create order (placeholder implementation)
   async createOrder(orderData: PaymentOrder): Promise<any> {
     try {
-      // In a real application, this should be done on your backend server
-      // This is a simplified version for demonstration
-      const response = await fetch('https://sandbox.cashfree.com/pg/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-client-id': CASHFREE_CONFIG.appId,
-          'x-client-secret': CASHFREE_CONFIG.secretKey,
-          'x-api-version': '2023-08-01'
-        },
-        body: JSON.stringify(orderData)
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      return result;
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Return mock response
+      return {
+        order_id: orderData.order_id,
+        payment_session_id: 'mock_session_' + Date.now(),
+        order_status: 'ACTIVE'
+      };
     } catch (error) {
       console.error('Error creating Cashfree order:', error);
       throw error;
     }
   }
 
-  // Initialize payment
+  // Initialize payment (placeholder implementation)
   async initiatePayment(sessionId: string, orderId: string): Promise<any> {
     try {
-      const checkoutOptions = {
-        paymentSessionId: sessionId,
-        returnUrl: `${window.location.origin}/payment-success?order_id=${orderId}`,
+      // Simulate payment process
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Simulate successful payment
+      return {
+        order_id: orderId,
+        payment_status: 'SUCCESS',
+        transaction_id: 'txn_' + Date.now()
       };
-
-      const result = await cashfree.checkout(checkoutOptions);
-      return result;
     } catch (error) {
       console.error('Error initiating payment:', error);
       throw error;
     }
   }
 
-  // Verify payment status
+  // Verify payment status (placeholder implementation)
   async verifyPayment(orderId: string): Promise<any> {
     try {
-      const response = await fetch(`https://sandbox.cashfree.com/pg/orders/${orderId}`, {
-        method: 'GET',
-        headers: {
-          'x-client-id': CASHFREE_CONFIG.appId,
-          'x-client-secret': CASHFREE_CONFIG.secretKey,
-          'x-api-version': '2023-08-01'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      return result;
+      // Simulate verification delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Return mock verification response
+      return {
+        order_id: orderId,
+        order_status: 'PAID',
+        payment_status: 'SUCCESS',
+        transaction_id: 'txn_' + Date.now(),
+        order_amount: 100.00,
+        order_currency: 'INR'
+      };
     } catch (error) {
       console.error('Error verifying payment:', error);
       throw error;
